@@ -75,7 +75,6 @@
       },
       "scripts": [
         "scripts/base.sh",
-        "scripts/kernel.sh",
         "scripts/ruby.sh",
         "scripts/chef.sh",
         "scripts/salt.sh",
