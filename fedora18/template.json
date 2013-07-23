@@ -1,0 +1,95 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<tab> linux text biosdevname=0 ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><enter><wait>"
+      ],
+      "vm_name": "Fedora18",
+      "headless": false,
+      "boot_wait": "10s",
+      "disk_size": 20280,
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_os_type": "Fedora_64",
+      "http_directory": "http",
+      "iso_checksum": "17d5c860bf9dc83e035882a7b33ffc77",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://mirrors.kernel.org/fedora/releases/18/Fedora/x86_64/iso/Fedora-18-x86_64-DVD.iso",
+      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "virtualbox",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "4096"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "4"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version"
+    },
+    {
+      "boot_command": [
+        "<tab> linux text biosdevname=0 ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><enter><wait>"
+      ],
+      "vm_name": "Fedora18",
+      "boot_wait": "10s",
+      "disk_size": 20280,
+      "guest_os_type": "fedora-64",
+      "http_directory": "http",
+      "headless": false,
+      "iso_checksum": "17d5c860bf9dc83e035882a7b33ffc77",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://mirrors.kernel.org/fedora/releases/18/Fedora/x86_64/iso/Fedora-18-x86_64-DVD.iso",
+      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "vmware",
+      "tools_upload_flavor": "linux",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "4096",
+        "numvcpus": "4"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "override": {
+        "virtualbox": {
+          "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+        },
+        "vmware": {
+          "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+        }
+      },
+      "scripts": [
+        "scripts/base.sh",
+        "scripts/kernel.sh",
+        "scripts/ruby.sh",
+        "scripts/chef.sh",
+        "scripts/salt.sh",
+        "scripts/puppet.sh",
+        "scripts/vagrant.sh",
+        "scripts/nfs.sh",
+        "scripts/vmfusion.sh",
+        "scripts/virtualbox.sh",
+        "scripts/cleanup.sh",
+        "scripts/zerodisk.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "post-processors": [ { "type": "vagrant", "keep_input_artifact": true, "output": "Fedora18_base_{{.Provider}}.box" }]
+}
+

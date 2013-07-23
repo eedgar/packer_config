@@ -5,6 +5,7 @@
       "scripts": [
         "scripts/postinstall.sh",
         "scripts/fusion.sh",
+        "scripts/virtualbox.sh",
         "scripts/salt.sh",
         "scripts/chef.sh",
         "scripts/cleanup.sh"
@@ -23,7 +24,7 @@
     {
       "type": "virtualbox",
       "vm_name": "ubuntu1210",
-      "headless": false,
+      "headless": true,
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
@@ -66,7 +67,7 @@
       "type": "vmware",
       "vm_name": "ubuntu1210",
       "vmdk_name": "ubuntu1210",
-      "headless": false,
+      "headless": true,
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
@@ -96,5 +97,8 @@
       }
     }
   ],
-  "post-processors": [ { "type": "vagrant", "keep_input_artifact": true } ]
+  "post-processors": [ { "type": "vagrant", 
+                         "keep_input_artifact": true,
+                         "output": "base_{{.Provider}}.box" }
+                     ]
 }
