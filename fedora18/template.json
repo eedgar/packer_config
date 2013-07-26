@@ -81,8 +81,9 @@
         "scripts/puppet.sh",
         "scripts/vagrant.sh",
         "scripts/nfs.sh",
-        "scripts/vmfusion.sh",
         "scripts/virtualbox.sh",
+        "scripts/vmfusion.sh",
+        "scripts/disable_ipv6.sh",
         "scripts/cleanup.sh",
         "scripts/zerodisk.sh"
       ],
