@@ -75,15 +75,15 @@
       },
       "scripts": [
         "scripts/base.sh",
-        "scripts/kernel.sh",
         "scripts/ruby.sh",
         "scripts/chef.sh",
         "scripts/salt.sh",
         "scripts/puppet.sh",
         "scripts/vagrant.sh",
         "scripts/nfs.sh",
-        "scripts/vmfusion.sh",
         "scripts/virtualbox.sh",
+        "scripts/vmfusion.sh",
+        "scripts/disable_ipv6.sh",
         "scripts/cleanup.sh",
         "scripts/zerodisk.sh"
       ],

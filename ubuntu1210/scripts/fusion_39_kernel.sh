@@ -1,20 +1,26 @@
+#!/usr/bin/env bash
+KVER=`uname -r`
+
 if [ -f /home/vagrant/linux.iso ]
 then
-    pushd /tmp
-    mkdir -p /mnt/cdrom
+    cd /tmp
+    mkdir -p /mnt/fusion
 
-    # Required for shared folders
-    yum -y install fuse
+    mount -o ro,loop /home/vagrant/linux.iso /mnt/fusion
+    tar zxf /mnt/fusion/VMwareTools-*.tar.gz -C /tmp/
+    umount /mnt/fusion
+    rmdir /mnt/fusion
 
-    mount -o loop /home/vagrant/linux.iso /mnt/cdrom
-    tar zxvf /mnt/cdrom/VMwareTools-*.tar.gz -C /tmp/
-    umount /mnt/cdrom
+    if [ ! -h "/lib/modules/$KVER/build/include/linux/version.h" ]; then
+        echo "Linking version.h header for vmware tools."
+        cd /lib/modules/$KVER/build/include/linux/
+        ln -s ../generated/uapi/linux/version.h
+        cd -
+    fi
 
-    pushd vmware-tools-distrib
-
-    wget https://raw.github.com/ebdevrepo/bin/master/vmware_include_fix.sh
-    chmod +x vmware_include_fix.sh
-    ./vmware_include_fix.sh
+    apt-get -y install build-essential gcc build-essential linux-headers-$(uname -r) dkms make
+    echo "Downloading vmware patches..."
+    cd vmware-tools-distrib
     wget https://raw.github.com/ebdevrepo/bin/master/vmware9.k3.8rc4.patch
     wget https://raw.github.com/ebdevrepo/bin/master/vmware_vmci_fix.sh
     chmod +x ./vmware_vmci_fix.sh
@@ -24,11 +30,12 @@ then
     wget https://raw.github.com/eedgar/vmware_fedora_fixes_bin/master/vmware_hgfs_fix.sh
     chmod +x ./vmware_hgfs_fix.sh
     ./vmware_hgfs_fix.sh
-    popd
-    
+    cd -
+
     /tmp/vmware-tools-distrib/vmware-install.pl --clobber-kernel-modules=vmci -d
 
     rm -rf vmware-tools-distrib
+    cd ~
+
     rm /home/vagrant/linux.iso
-    popd
 fi
