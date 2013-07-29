@@ -1,11 +1,17 @@
-cd /tmp
-mkdir -p /mnt/vbox
+#!/bin/bash
 if [ -f /home/vagrant/VBoxGuest*.iso ]
 then
+    cd /tmp
+    mkdir -p /mnt/vbox
+    mount -o loop,ro /home/vagrant/VBoxGuest*.iso /mnt/vbox
+    cd /mnt/vbox
 
-    mount -o loop /home/vagrant/VBoxGuest*.iso /mnt/vbox
-    sh /mnt/vbox/VBoxLinuxAdditions.run
+    sh ./VBoxLinuxAdditions.run
+    cd /tmp 
+
     umount /mnt/vbox
     rmdir /mnt/vbox
+    cd /
+
     rm -rf /home/vagrant/VBoxGuest*.iso
 fi

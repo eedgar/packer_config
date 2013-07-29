@@ -1,1 +1,1 @@
-packer build -only=virtualbox lxc.json
+packer build -only=virtualbox -debug lxc.json

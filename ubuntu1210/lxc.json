@@ -4,7 +4,7 @@
       "type": "shell",
       "scripts": [
         "scripts/postinstall.sh",
-        "scripts/fusion.sh",
+        "scripts/fusion_39_kernel.sh",
         "scripts/virtualbox.sh",
         "scripts/salt.sh",
         "scripts/chef.sh",
@@ -101,6 +101,6 @@
   ],
   "post-processors": [ { "type": "vagrant", 
                          "keep_input_artifact": true,
-                         "output": "base_{{.Provider}}.box" }
+                         "output": "lxc_{{.Provider}}.box" }
                      ]
 }
