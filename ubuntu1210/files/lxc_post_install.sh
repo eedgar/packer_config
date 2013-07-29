@@ -10,8 +10,9 @@ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.9-raring/linux-headers-3.9
 wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.9-raring/linux-image-3.9.0-030900-generic_3.9.0-030900.201304291257_amd64.deb
 sudo dpkg -i *.deb
 sudo update-grub
+sudo rm /etc/ssh/sshd_not_to_be_run
 sync
 sync
 sync
-#dpkg --configure -a
+
 /sbin/init 6
